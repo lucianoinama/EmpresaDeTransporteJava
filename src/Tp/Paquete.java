@@ -2,18 +2,34 @@ package Tp;
 
 import java.util.Objects;
 
-public class Paquete {
+public class Paquete implements Comparable{
 
-	private double peso;
-	private double volumen;
-	private String destino;
-	private boolean refrig;
+	private final double peso;
+	private final double volumen;
+	private final String destino;
+	private final boolean refrig;
 	
 	public Paquete(String destino, double peso, double volumen, boolean refrig) {
 		
+		if (destino == null) {
+			throw new RuntimeException("Destino no puede ser un parametro vacio!");
+		}
+
+		if (hayCaracterEspecial(destino)) {
+			throw new RuntimeException("No se permiten caracteres especiales ni numeros para ingresar el destino");
+		}
+
+		if (volumen < 0 || peso < 0) {
+			throw new RuntimeException("Los valores peso y/o volumen no deben ser menores a cero(0)!");
+		}
+		
+		
+		
+		
+		
 		this.peso = peso;
 		this.volumen = volumen;
-		this.destino = destino; //En el caso de este trabajo, el destino es la identificacion del paquete
+		this.destino = destino.toUpperCase(); //En el caso de este trabajo, el destino es la identificacion del paquete
 		this.refrig = refrig;
 	
 	
@@ -25,50 +41,44 @@ public class Paquete {
 	public String toString() {
 		
 		return "[Paquete Destino: " + this.destino + ", Volumen: "+ this.volumen +", Peso: " + this.peso + ", Refrigeracion: " + this.refrig + "]";
-		//return "[Paquete identif: " + this.identificacion + ", Destino: " + this.destino + "]"; 
 	}
 
-	public double getPeso() {
+	public double obtenerPeso() {
 		return peso;
 	}
 
-
-	protected void setPeso(double peso) {
-		this.peso = peso;
-	}
-
-
-	public double getVolumen() {
+	protected double obtenerVolumen() {
 		return volumen;
 	}
 
 
-	protected void setVolumen(double volumen) {
-		this.volumen = volumen;
-	}
-
-
-	public String getDestino() {
+	protected String getDestinoP() {
 		return destino;
 	}
 
-
-	public void setDestino(String destino) {
-		this.destino = destino;
-	}
-
-
-	public boolean isRefrig() {
+	public boolean necesitaRefrig() {
 		return refrig;
 	}
 
 
-	protected void setRefrig(boolean refrig) {
-		this.refrig = refrig;
-	}
+	
+	private boolean hayCaracterEspecial(String str) { // Verifica si la string posee un caracter especial o numero
 
-	
-	
+		boolean result = false;
+		for (int i = 0; i < str.length(); i++) {
+			boolean acum = true;
+			int ascii = (int) str.charAt(i);
+
+			if ((ascii >= 65 && ascii <= 90) || (ascii >= 97 && ascii <= 122) || ascii == 32) {
+				acum = acum && false;
+			}
+
+			result = result || acum;
+			acum = true;
+		}
+		return result;
+
+	}
 
 	@Override
 	public boolean equals(Object obj) {
@@ -82,6 +92,20 @@ public class Paquete {
 		return Objects.equals(destino, other.destino)
 				&& Double.doubleToLongBits(peso) == Double.doubleToLongBits(other.peso) && refrig == other.refrig
 				&& Double.doubleToLongBits(volumen) == Double.doubleToLongBits(other.volumen);
+	}
+	@Override
+	public int compareTo(Object p) {
+		double compararPeso= ((Paquete)p).obtenerPeso();
+
+		if(this.obtenerPeso()> compararPeso) {
+			return 1;
+		}
+		else if(this.obtenerPeso() < compararPeso) {
+			return -1;
+		}
+        
+        return 0;
+
 	}
 
 	
