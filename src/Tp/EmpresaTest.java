@@ -28,6 +28,8 @@ public class EmpresaTest {
 	@Test(expected = RuntimeException.class)
 	public void testAgregarDestinoDuplicado() throws Exception {
 		emp.agregarDestino("Cordoba", 320);
+		emp.agregarDestino("Cordoba", 320);
+		
 	}
 	
 	@Test(expected = RuntimeException.class)
@@ -105,7 +107,10 @@ public class EmpresaTest {
 		emp.incorporarPaquete("Parana", 50, 8, false);
 		emp.cargarTransporte("AB271NE");
 
+		emp.agregarTrailer("AD235NI", 6000, 30, false, 2, 1);
+		emp.agregarTrailer("AD235NU", 6000, 30, false, 2, 1);
 		emp.agregarFlete("AD235NP", 6000, 30, 2, 1, 100);
+
 		emp.asignarDestino("AD235NP", "Parana");
 		emp.incorporarPaquete("Parana", 400, 12, false);
 		emp.incorporarPaquete("Parana", 50, 8, false);

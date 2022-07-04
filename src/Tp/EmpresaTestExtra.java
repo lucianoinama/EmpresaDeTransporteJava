@@ -101,34 +101,49 @@ public class EmpresaTestExtra {
 	
 	
 	@Test(expected = RuntimeException.class)
-	public void testCargarTnoexistente() throws Exception {
+	public void testCargarTransporteNoExistente() throws Exception {
 	emp.cargarTransporte("ABCDF");}
 	
 	@Test(expected = RuntimeException.class)
 	public void testCargarTDosVeces() throws Exception {
 		emp.agregarMegaTrailer("ABCDFG", 12000, 600, false, 5, 4, 2, -5);
+		emp.asignarDestino("ABCDFG", "Cordoba" );
 		emp.cargarTransporte("ABCDFG");
 		emp.cargarTransporte("ABCDFG");
 	
 	}
 	
 	@Test(expected = RuntimeException.class)
-	public void testInciarYFinalizarMatNull() throws Exception {
+	public void testCargarTransporteSinDestino() throws Exception{
+		emp.agregarMegaTrailer("ABCDFG", 12000, 600, false, 5, 4, 2, -5);
+		emp.cargarTransporte("ABCDFG");
+	}
+	
+	
+	@Test(expected = RuntimeException.class)
+	public void testInciarYFinalizarMatriculaNull() throws Exception {
 	emp.iniciarViaje(null);}
 	
 	@Test(expected = RuntimeException.class)
-	public void testInciarYFinalizarMatVacia() throws Exception {
+	public void testInciarYFinalizarMatriculaVacia() throws Exception {
 	emp.iniciarViaje(" ");}
 	
 	@Test(expected = RuntimeException.class)
-	public void testObtenerCostoMatVacia() throws Exception {
+	public void testObtenerCostoMatriculaVacia() throws Exception {
 	emp.obtenerCostoViaje(" ");}
 	
 	@Test(expected = RuntimeException.class)
 	public void testObtenerTransIgualVacio() throws Exception {
 	emp.obtenerTransporteIgual(" ");}
 	
-//DESTINO
+	@Test(expected = RuntimeException.class)
+	public void testKmsNoValidosParaTipoDeTransporte() throws Exception{
+		emp.agregarTrailer("AC314PI", 12000, 60, true, 5, 100);
+		emp.asignarDestino("AC314PI", "Mar del Plata");
+	}
+	
+	
+	//DESTINO
 	@Test(expected = RuntimeException.class)
 	public void testAgregarDestinoVacio() throws Exception {
 	emp.agregarDestino(" ", 0);}
